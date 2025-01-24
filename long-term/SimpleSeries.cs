@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using A0;
-using D2;
+using D3.Types;
 
 namespace long_term
 {
@@ -34,8 +33,8 @@ namespace long_term
         
         public static List<OutageSimpleType> Basic3()
         {
-            var plantA = new D2.PlantType() { Capacity = 100, Name = "unitA" };
-            var plantB = new D2.PlantType() { Capacity = 60, Name = "unitB" };
+            var plantA = new PlantType() { Capacity = 100, Name = "unitA" };
+            var plantB = new PlantType() { Capacity = 60, Name = "unitB" };
 
             var outage1 = new OutageType() { Plant = "unitA", StartDate = "2025-02-01".ToDateTime(), EndDate = "2025-03-01".ToDateTime(), Lost = 30 };
             var outage2 = new OutageType() { Plant = "unitB", StartDate = "2025-02-01".ToDateTime(), EndDate = "2025-03-01".ToDateTime(), Lost = 20 };
@@ -49,7 +48,7 @@ namespace long_term
 
             var dayTable = plants
                 .Select(o => Enumerable.Range(0, 365).Select(z => (double)z).ToArray()
-                    .Select((y, i) => new { Period = EnumPeriod.Day.ToString(), Date = firstDate.AddDays(i), Name = o.Name, Val = (double)y }).ToArray())
+                    .Select((y, i) => new {  Date = firstDate.AddDays(i), Name = o.Name, Val = (double)y }).ToArray())
                 .SelectMany(x => x).Dump();
 
             var withAdditional = from a in dayTable
